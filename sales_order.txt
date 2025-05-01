@@ -1,0 +1,13 @@
+create table sales_order( 
+Order_No varchar2(6) PRIMARY key, 
+check(Order_No like 'O%'), 
+Order_date Date, 
+Client_No varchar2(6) REFERENCES client_master(Client_No), 
+Salesman_No varchar2(6) REFERENCES salesman_master(Salesman_No), 
+Delivery_type Char(1) DEFAULT 'F' check(Delivery_type in ('P','F')), 
+Bill_y_n char(1), 
+Delivery_date date , 
+Order_status varchar2(10), 
+constraint ck_order_status check(Order_status in ('InProcess','Fullfilled','BackOrder','Cancelled')), 
+constraint ck_delivery_date check (Delivery_date >= Order_date) 
+);

@@ -1,0 +1,119 @@
+Dept Table Creation and Insertion: 
+create table dept( 
+    deptno number(2,0), 
+    dname  varchar2(14), 
+    loc    varchar2(13), 
+constraint pk_dept primary key (deptno) 
+); 
+ 
+insert into dept 
+values(10, 'ACCOUNTING', 'NEW YORK'); 
+insert into dept 
+values(20, 'RESEARCH', 'DALLAS'); 
+insert into dept 
+values(30, 'SALES', 'CHICAGO'); 
+insert into dept 
+values(40, 'OPERATIONS', 'BOSTON'); 
+Output: 
+ 
+Emp Table Creation and Insertion: 
+ create table emp( 
+    empno number(4,0), 
+    ename varchar2(10), 
+    job varchar2(9), 
+    mgr number(4,0), 
+    hiredate date, 
+    sal number(7,2), 
+    comm number(7,2), 
+    deptno number(2,0), 
+); 
+constraint pk_emp primary key (empno), 
+constraint fk_deptno foreign key (deptno) references dept (deptno) 
+insert into emp  
+values(7839, 'KING', 'PRESIDENT', null, to_date('17-11-1981','dd-mm-yyyy'), 5000, null, 10); 
+insert into emp  
+values(7698, 'BLAKE', 'MANAGER', 7839, to_date('1-5-1981','dd-mm-yyyy'), 2850, null, 30); 
+insert into emp  
+values(7782, 'CLARK', 'MANAGER', 7839, to_date('9-6-1981','dd-mm-yyyy'),2450, null, 10); 
+insert into emp  
+values(7566, 'JONES', 'MANAGER', 7839, to_date('2-4-1981','dd-mm-yyyy'),2975, null, 20); 
+insert into emp  
+values(7788, 'SCOTT', 'ANALYST', 7566, to_date('13-JUL-87','dd-mm-rr') - 85,3000, null, 20); 
+insert into emp  
+values(7902,'FORD', 'ANALYST', 7566, to_date('3-12-1981','dd-mm-yyyy'),3000, null, 20); 
+insert into emp  
+values(7369, 'SMITH', 'CLERK', 7902, to_date('17-12-1980','dd-mm-yyyy'),800, null, 20); 
+insert into emp  
+values(7499, 'ALLEN', 'SALESMAN', 7698, to_date('20-2-1981','dd-mm-yyyy'),1600, 300, 30); 
+insert into emp  
+values(7521, 'WARD', 'SALESMAN', 7698, to_date('22-2-1981','dd-mm-yyyy'),1250, 500, 30); 
+insert into emp  
+values(7654, 'MARTIN', 'SALESMAN', 7698, to_date('28-9-1981','dd-mm-yyyy'),1250, 1400, 30); 
+insert into emp  
+values(7844, 'TURNER', 'SALESMAN', 7698, to_date('8-9-1981','dd-mm-yyyy'),1500, 0, 30); 
+insert into emp  
+values(7876, 'ADAMS', 'CLERK', 7788, to_date('13-JUL-87','dd-mm-yyyy'),1100, null, 20); 
+insert into emp  
+values(7900, 'JAMES', 'CLERK', 7698, to_date('3-12-1981','dd-mm-yyyy'),950, null, 30); 
+insert into emp  
+values(7934,'MILLER','CLERK', 7782, to_date('23-1-1982','dd-mm-yyyy'),1300, null, 10); 
+Output: 
+1. Display the names of all employees’ right aligning them to 15 characters. 
+SQL Command:  
+select lpad(empno,15) from emp; 
+Output: 
+2. Display the names of all employees’ padding them to the right up to 15 characters with 
+‘*’. 
+SQL Command:  
+select lpad(empno,15,'*') from emp; 
+Output: 
+3. Find the details of all the managers in department 10 and all clerks in department 20 and 
+all employees who are neither managers nor clerks but whose salary is more than or 
+equal to 2000/-. 
+SQL Command:  
+select * from emp where (job='MANAGER' and deptno=10) or (job='CLERK' and 
+deptno=20) or (job!='MANAGER' and job != 'CLERK'and sal>=2000); 
+Output: 
+4. List all the employees who have joined between 01/02/81 and 31/08/81. 
+SQL Command:  
+select ename,hiredate from emp where hiredate between '1-FEB-81' and '31-AUG-81'; 
+Output: 
+5. List all the employees who were joined as manager during 1981. 
+SQL Command:  
+select ename,hiredate,job from emp where job='MANAGER' and 
+to_char(hiredate,'YY')=81; 
+Output: 
+6. List the employees whose salaries are 800, 1600 or 2450. 
+SQL Command:  
+select ename, sal from emp where sal in (800,1600,2450); 
+Output: 
+7. List the names of all employees who are either ‘clerks’ or ‘salesman’ or ‘analyst’. 
+SQL Command:  
+select ename, job from emp where job in ('MANAGER','CLERK','ANALYST'); 
+Output: 
+8. List the total number of employees and the average salaries of the different 
+departments. 
+SQL Command:  
+select count(ename), avg(sal) from emp group by deptno; 
+Output: 
+9. Calculate the average salary of all employees whose department is 30. 
+SQL Command:  
+select avg(sal) from emp where deptno=30; 
+Output: 
+10. Calculate the minimum salary earn by clerks. 
+SQL Command:  
+select min(sal) from emp where job='CLERK'; 
+Output: 
+11.  Calculate the maximum salary earn by salesmen. 
+SQL Command:  
+select max(sal) from emp where job='SALESMAN'; 
+Output: 
+12. ----------------------------------------------------------------------------------------------------- 
+13.  Calculate the no. of employees who are not getting any commission. 
+SQL Command:  
+select count(ename) from emp where comm is NULL; 
+Output: 
+14. Find the department is not having any employee. 
+SQL Command: 
+select deptno from emp; 
+select dname from dept where deptno not in (10,20,30);
